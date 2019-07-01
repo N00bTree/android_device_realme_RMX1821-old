@@ -31,9 +31,10 @@ TARGET_BOARD_PLATFORM := mt6771
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := mt6771
 TARGET_NO_BOOTLOADER := true
-TARGET_USES_UEFI := true
+# TARGET_USES_UEFI := true
 
 # Kernel
+BOARD_KERNEL_OFFSET := 0x00008000
 BOARD_KERNEL_BASE := 0x40078000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_TAGS_OFFSET := 0x13f88000
@@ -41,10 +42,11 @@ BOARD_BOOTIMG_HEADER_VERSION := 1
 BOARD_HEADER_SIZE := 1648
 BOARD_RAMDISK_OFFSET := 0x14f88000
 BOARD_SECOND_OFFSET := 0x00e88000
-BOARD_RECOVERY_DTBO_SIZE := 79027
-BOARD_RECOVERY_DTBO_OFFSET := 33603584 # int64_t
+# BOARD_RECOVERY_DTBO_SIZE := 79027
+# BOARD_RECOVERY_DTBO_OFFSET := 33603584 # int64_t
 BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2 androidboot.selinux=permissive
-TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/prebuilt/zImage
+# BOARD_KERNEL_CMDLINE += veritykeyid=id:7e4333f9bba00adfe0ede979e28ed1920492b40f
+TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/prebuilt/boot.img-zImage
 BOARD_MKBOOTIMG_ARGS := --base $(BOARD_KERNEL_BASE) --ramdisk_offset $(BOARD_RAMDISK_OFFSET) --second_offset $(BOARD_SECOND_OFFSET) --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
 
@@ -69,25 +71,23 @@ BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR := vendor
 
 # Recovery
-TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
-TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery/root/etc/recovery.fstab
-BOARD_INCLUDE_RECOVERY_DTBO := true
-BOARD_PREBUILT_DTBOIMAGE := $(LOCAL_PATH)/prebuilt/dtbo.img
+# BOARD_AVB_ENABLE := true # create vbmeta.img for verified boot 2.0 (default) but this device use 1.0
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_HAS_NO_REAL_SDCARD := true
 BOARD_SUPPRESS_SECURE_ERASE := true
-BOARD_USES_MMCUTILS := true
-BOARD_SUPPRESS_EMMC_WIPE := true
-BOARD_AVB_ENABLE := true
-BOARD_RECOVERY_SWIPE := true
-
-# TWRP
 BOARD_USE_FRAMEBUFFER_ALPHA_CHANNEL := true
 RECOVERY_SDCARD_ON_DATA := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
-TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/mt_usb/musb-hdrc.0.auto/gadget/lun%d/file
-TARGET_DISABLE_TRIPLE_BUFFERING := false
+TARGET_USES_MKE2FS := true
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
+BOARD_INCLUDE_RECOVERY_DTBO := true
+BOARD_PREBUILT_DTBOIMAGE := $(LOCAL_PATH)/prebuilt/dtbo.img
+TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery.fstab
+
+########
+# TWRP #
+########
+# TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/mt_usb/musb-hdrc.0.auto/gadget/lun%d/file
 
 # Resolution
 TW_THEME := portrait_hdpi
@@ -96,45 +96,45 @@ DEVICE_SCREEN_WIDTH := 720
 DEVICE_SCREEN_HEIGHT := 1520
 
 # Brightness
-TW_BRIGHTNESS_PATH := \"/sys/class/leds/lcd-backlight/brightness\"
+# TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
 TW_DEFAULT_BRIGHTNESS := 188
 TW_MAX_BRIGHTNESS := 255
-TW_CUSTOM_CPU_TEMP_PATH := /sys/class/thermal/thermal_zone4/temp
+# TW_CUSTOM_CPU_TEMP_PATH := /sys/class/thermal/thermal_zone4/temp
 TW_NO_SCREEN_BLANK := true
 TW_NO_SCREEN_TIMEOUT := true
 TW_NO_BATT_PERCENT := false
-TW_EXCLUDE_DEFAULT_USB_INIT := true
+# TW_EXCLUDE_DEFAULT_USB_INIT := true
 TW_USE_TOOLBOX := true
-TW_IGNORE_MISC_WIPE_DATA := true
+# TW_IGNORE_MISC_WIPE_DATA := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
-TW_EXCLUDE_SUPERSU := true
+# TW_EXCLUDE_SUPERSU := true
 TW_EXCLUDE_TWRPAPP := true
 TW_SCREEN_BLANK_ON_BOOT := true
 
 # Crypto
-TW_INCLUDE_CRYPTO := true
-TW_CRYPTO_FS_TYPE := "ext4"
-TW_CRYPTO_REAL_BLKDEV := "/dev/block/platform/bootdevice/by-name/userdata"
-TW_CRYPTO_MNT_POINT := "/data"
-TW_CRYPTO_FS_OPTIONS := "nosuid,nodev,noatime,discard,noauto_da_alloc,barrier=0,data=ordered"
+# TW_INCLUDE_CRYPTO := true
+# TW_CRYPTO_FS_TYPE := "ext4"
+# TW_CRYPTO_REAL_BLKDEV := "/dev/block/platform/bootdevice/by-name/userdata"
+# TW_CRYPTO_MNT_POINT := "/data"
+# TW_CRYPTO_FS_OPTIONS := "nosuid,nodev,noatime,discard,noauto_da_alloc,barrier=0,data=ordered"
 
 # Debug
 TWRP_INCLUDE_LOGCAT := true
 
 # Storage
-TW_HAS_MTP := true
-TW_MTP_DEVICE := /dev/mtp_usb
-TW_INTERNAL_STORAGE_PATH := "/data/media"
-TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
-TW_EXTERNAL_STORAGE_PATH := "/external_sd"
-TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
-TW_DEFAULT_EXTERNAL_STORAGE := true
+# TW_HAS_MTP := true
+# TW_MTP_DEVICE := /dev/mtp_usb
+# TW_INTERNAL_STORAGE_PATH := "/data/media"
+# TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+# TW_EXTERNAL_STORAGE_PATH := "/external_sd"
+# TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
+# TW_DEFAULT_EXTERNAL_STORAGE := true
 
 # Languages
 TW_EXTRA_LANGUAGES := true
 TW_DEFAULT_LANGUAGE := en_EN
 
-TW_REBOOT_RECOVERY := true
-
 # SE Linux
-TW_HAVE_SELINUX := true
+#TW_HAVE_SELINUX := true
+
+PLATFORM_SECURITY_PATCH := 2019-05-05
