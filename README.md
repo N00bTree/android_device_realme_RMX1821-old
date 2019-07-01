@@ -1,8 +1,8 @@
-# TWRP device tree for Realme spartan (Realme 3)
+# TWRP device tree for Realme RMX1821 (Realme 3)
 
 ## About Device
 
-![Realme Spartan](https://www.91-cdn.com/pricebaba-images/images/product/mobile/60023/realme-3-raw-262527.jpg)
+![Realme RMX1821](https://www.91-cdn.com/pricebaba-images/images/product/mobile/60023/realme-3-raw-262527.jpg)
 
 ### Specifications
 
@@ -77,12 +77,12 @@ Battery life | Endurance rating 108h
 
 _Note: Above test results may(not) vary._
 
-**This device tree can be used to build twrp for Realme Spartan (Realme 3)**
+**This device tree can be used to build twrp for Realme RMX1821 (Realme 3)**
 
 ## Build Instructions
 ```sh
 export ALLOW_MISSING_DEPENDENCIES=true
 source build/envsetup.sh
-lunch omni_spartan-eng
+lunch omni_RMX1821-eng
 mka recoveryimage
 ```
